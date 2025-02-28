@@ -1,0 +1,12 @@
+services:
+  cloud-sql-proxy:
+    image: gcr.io/cloudsql-docker/gce-proxy:1.33.0
+    command: >
+      /cloud_sql_proxy
+      -instances=prospect-converter:us-central1:orderdb=tcp:0.0.0.0:5432
+      -credential_file=/secrets/service_account.json
+    ports:
+      - "5432:5432"
+    volumes:
+      # Use the environment variable for the host path
+      - "${SERVICE_ACCOUNT_PATH}:/secrets/service_account.json:ro"

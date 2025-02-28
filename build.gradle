@@ -1,0 +1,22 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    // Common repositories or plugin configurations for subprojects
+    repositories {
+        mavenCentral()
+    }
+
+    apply plugin: 'java'
+
+    // Use Java 21 for all subprojects
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+}
