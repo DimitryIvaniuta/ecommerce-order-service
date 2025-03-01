@@ -16,6 +16,8 @@ java {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Kafka dependency to enable auto-configuration, including KafkaProperties
+    implementation 'org.springframework.boot:spring-boot-starter-kafka'
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'org.postgresql:postgresql:42.7.5'
@@ -29,6 +31,8 @@ dependencies {
     // Lombok for tests
     testCompileOnly("org.projectlombok:lombok:1.18.36")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.36")
+
+
 }
 
 tasks.withType(Test) {
