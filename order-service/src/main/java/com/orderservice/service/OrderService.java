@@ -44,24 +44,23 @@ public class OrderService {
      * A unique external ID is generated for the order. The order is then saved to the database,
      * and an event is published to the Kafka topic for further processing.
      *
-     * @param description the description of the order.
+     * @param order value.
      * @return the generated external ID of the created order.
      */
-    public String createOrder(String description) {
+    public String createOrder(Order order) {
         // Generate a unique external ID for the order
         String externalId = UUID.randomUUID().toString();
 
         // Create the Order entity
-        Order order = new Order();
         order.setExternalId(externalId);
-        order.setDescription(description);
+
 
         try {
             // Save the order in the database
             orderRepository.save(order);
-            logger.info("Order saved: externalId={}, description={}", externalId, description);
+            logger.info("Order saved: externalId={}, description={}", externalId, order.getDescription());
         } catch (Exception e) {
-            logger.error("Error saving order with externalId {}: {}", externalId, e.getMessage(), e);
+            logger.error("Error saving order with externalId {}: {}", externalId, e.getMessage());
             throw new OrderProcessingException("Error saving order with externalId " + externalId, e);
         }
 
@@ -70,7 +69,7 @@ public class OrderService {
             kafkaTemplate.send(ORDER_TOPIC, externalId, order);
             logger.info("Order event published to Kafka for externalId={}", externalId);
         } catch (Exception e) {
-            logger.error("Error publishing Kafka event for order with externalId {}: {}", externalId, e.getMessage(), e);
+            logger.error("Error publishing Kafka event for order with externalId {}: {}", externalId, e.getMessage());
             throw new OrderProcessingException("Error publishing Kafka event for order with externalId " + externalId, e);
         }
 

@@ -6,6 +6,8 @@ import com.orderservice.model.Order;
 import com.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,13 +42,14 @@ public class OrderController {
      * @return the response DTO containing the created order details.
      */
     @PostMapping
-    public OrderResponse createOrder(@RequestBody OrderRequest orderRequest) {
+    public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
         log.info("Received request to create order: {}", orderRequest);
-        String externalId = orderService.createOrder(orderRequest.getDescription());
+
+        String externalId = orderService.createOrder(orderRequest.toOrder());
         Order order = orderService.getOrder(externalId);
         OrderResponse response = mapToOrderResponse(order);
         log.info("Order created with externalId: {}", externalId);
-        return response;
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     /**

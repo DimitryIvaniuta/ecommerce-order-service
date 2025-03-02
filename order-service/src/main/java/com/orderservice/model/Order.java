@@ -35,10 +35,11 @@ public class Order {
     private Long id;
 
     /**
-     * The externally generated unique identifier for the order.
+     * The timestamp when the order was created.
      */
-    @Column(name = "external_id", nullable = false, unique = true)
-    private String externalId;
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
     /**
      * The description of the order.
@@ -47,11 +48,16 @@ public class Order {
     private String description;
 
     /**
-     * The timestamp when the order was created.
+     * The externally generated unique identifier for the order.
      */
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "external_id", nullable = false, unique = true)
+    private String externalId;
+
+    /**
+     * The item name.
+     */
+    @Column(name = "item_name", nullable = false)
+    private String itemName;
 
     /**
      * The timestamp when the order was last updated.

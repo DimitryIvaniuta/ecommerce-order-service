@@ -7,12 +7,18 @@ plugins {
 group = 'com.payments'
 version = '1.0.0-SNAPSHOT'
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+//    implementation 'org.springframework.boot:spring-boot-starter-kafka'
     implementation 'org.springframework.kafka:spring-kafka'
-
+    // Testing dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
+
 
     // Lombok
     compileOnly("org.projectlombok:lombok:1.18.36")
